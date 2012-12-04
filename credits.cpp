@@ -22,11 +22,15 @@ void credits()
 
     while(choix!="m"&&choix!="M")
     {
-        cout << "M pour revenir au menu, W pour visiter le site web" << endl;
+        cout << "M -> Revenir au menu" << endl << "W -> Visiter le site web" << endl << "G -> Voir le projet sur GitHub" << endl;
         cin >> choix;
         if(choix=="w"||choix=="W")
         {
             SITE_WEB;
+        }
+        else if(choix=="g"||choix=="G")
+        {
+            GITHUB;
         }
     }
 }
