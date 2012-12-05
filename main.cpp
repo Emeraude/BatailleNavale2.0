@@ -1,3 +1,11 @@
+/**
+
+Manque: -Interface utilisateur
+        -Interface graphique
+        -IA
+
+**/
+
 #include <iostream>                                                                                                                                                                                                                                                                                                                                //huhu
 #include <ctime>
 #include <cstdlib>

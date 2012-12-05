@@ -19,6 +19,7 @@ void jeu()
     int i(0),x,y;
     bool partie_finie(false);
     string choix;
+    vector<Joueur> players;
 
     for(x=0;x<HAUTEUR;x++)
     {
@@ -28,12 +29,13 @@ void jeu()
         }
     }
 
-    Joueur player1(map,HAUTEUR/2,0,HUMAIN,1), player2(map,HAUTEUR/2,LARGEUR-1,IA,2);
+    players.push_back(Joueur(map,HAUTEUR/2,0,HUMAIN,1));
+    players.push_back(Joueur(map,HAUTEUR/2,LARGEUR-1,IA,2));
 
     cout << nb_petrole << endl;
 
     CLEAR;
-                                                                                                                                                                    // Je suis cachééé ahahahahahahahah personne ne me verra jamaiiiis
+
     while(i<nb_petrole)
     {
         x=rand()%HAUTEUR;

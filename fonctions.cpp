@@ -46,22 +46,43 @@ Position trouverPetrole(Case map[][LARGEUR], int x, int y)
 {
     return trouverPetroleLePlusProche(map, x, y);
 }
+bool listeCases(Case map[][LARGEUR], std::vector<Position> a, Bateau bateau)
+{
+    int i;
 
-/** Créer une fonction qui renvoie un tableau contenant chaque case du bateau **/
-
+    if(bateauExiste(bateau))
+    {
+        for(i=0;i<bateau.taille;i++)
+        {
+            a.push_back(Position());
+            if(bateau.direction==HAUT)
+            {
+                a.back().x=bateau.pos.x-i;
+                a.back().y=bateau.pos.y;
+            }
+            if(bateau.direction==BAS)
+            {
+                a.back().x=bateau.pos.x+i;
+                a.back().y=bateau.pos.y;
+            }
+            if(bateau.direction==GAUCHE)
+            {
+                a.back().x=bateau.pos.x;
+                a.back().y=bateau.pos.y-i;
+            }
+            if(bateau.direction==DROITE)
+            {
+                a.back().x=bateau.pos.x;
+                a.back().y=bateau.pos.y+i;
+            }
+        }
+        return true;
+    }
+    else return false;
+}
 Bateau infoBateau(Case map[][LARGEUR], int x, int y, Joueur &joueur)
 {
-    /***********************************/
-    /**  /!\  FONCTION À FINIR   /!\  **/
-    /**  /!\  FONCTION À FINIR   /!\  **/
-    /**  /!\  FONCTION À FINIR   /!\  **/
-    /**  /!\  FONCTION À FINIR   /!\  **/
-    /**  /!\  FONCTION À FINIR   /!\  **/
-    /**  /!\  FONCTION À FINIR   /!\  **/
-    /**  /!\  FONCTION À FINIR   /!\  **/
-    /***********************************/
-
-    int nb_bateaux,i,j;
+    unsigned int nb_bateaux,i,j;
     Bateau tmp_bateau;
     vector<Position> positions;
 
@@ -72,33 +93,16 @@ Bateau infoBateau(Case map[][LARGEUR], int x, int y, Joueur &joueur)
         if(bateauExiste(joueur.getBateau(i)))
         {
             tmp_bateau=joueur.getBateau(i);
-            positions.push_back(Position());
-            for(j=0;j<tmp_bateau.taille;j++)
+            listeCases(map, positions, joueur.getBateau(i));
+            for(j=0;j<positions.size();j++)
             {
-                if(tmp_bateau.direction==HAUT)
+                if(positions[j].x==x&&positions[j].y==y)
                 {
-                    positions.back().x=tmp_bateau.pos.x-j;
-                    positions.back().y=tmp_bateau.pos.y;
-                }
-                if(tmp_bateau.direction==BAS)
-                {
-                    positions.back().x=tmp_bateau.pos.x+j;
-                    positions.back().y=tmp_bateau.pos.y;
-                }
-                if(tmp_bateau.direction==GAUCHE)
-                {
-                    positions.back().x=tmp_bateau.pos.x;
-                    positions.back().y=tmp_bateau.pos.y-j;
-                }
-                if(tmp_bateau.direction==DROITE)
-                {
-                    positions.back().x=tmp_bateau.pos.x;
-                    positions.back().y=tmp_bateau.pos.y+j;
+                    return tmp_bateau;
                 }
             }
         }
     }
-    return tmp_bateau;
 }
 bool bateauExiste(Bateau bateau)
 {
