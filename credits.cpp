@@ -14,7 +14,7 @@ void credits()
 
     CLEAR;
     cout << "===== Bataille navale 2.0 =====" << endl << "version " << OS << endl << endl << endl;
-    cout << "Idee originale : Antoine Cormerais - Emeraude" << endl;
+    cout << "Idee originale : Emeraude" << endl;
     cout << "Developpement : Emeraude" << endl;
     cout << "Tests : Emeraude" << endl << endl << endl;
     cout << "===== Site web =====" << endl << endl << URL << endl;
