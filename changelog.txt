@@ -1,0 +1,24 @@
+v13.02.11
+
+-Add files readme and changelog (in english version only)
+-Start of developement of GUI
+
+v12.12.06
+
+-Remove koxtun from credits
+
+v12.12.05
+
+-New functions :
+ test existence of a boat
+ return list of cases of a boat
+ return informations about a boat
+
+v12.12.04
+
+-Credits improvement
+
+v12.11.30
+
+-First commit
+-Name of the version is the date ; it will change in the non-beta version;
