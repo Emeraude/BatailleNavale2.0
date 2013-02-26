@@ -4,7 +4,7 @@ Bataille Navale 2.0
 
 I. How to use Bataille Navale 2.0 ?
 
- Actually, it's just a test version, you have to compile the files to try it. You need gcc, and soon the SDL library.
+ Actually, it's just a test version, you have to compile the files to try it. You need gcc, and soon the SDL or Qt library.
 
 II. Tools used
 
@@ -15,14 +15,14 @@ II. Tools used
  OS : linux ; windows
  
  Soon :
-  Library : SDL (graphics)
+  Library : SDL (graphics) ? Qt ?
   Languages : HTML5 ; CSS3 ; PHP ; SQL; JavaScript (website)
   Others : Gimp ? (graphics)
 
 III. Requirements
 
  OS : linux, mac os, solaris, BSD, windows or others who support C++ compiler
- CPU : 
+ CPU : all
  GPU : /
  RAM : 5Kio
  Compiler : gcc

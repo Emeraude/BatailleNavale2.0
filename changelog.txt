@@ -1,3 +1,7 @@
+v13.02.26
+
+-Minor correction in credits
+
 v13.02.11
 
 -Add files readme and changelog (in english version only)
@@ -21,4 +25,4 @@ v12.12.04
 v12.11.30
 
 -First commit
--Name of the version is the date ; it will change in the non-beta version;
+-Name of the version is the date ; it will change in the non-beta version
