@@ -1,6 +1,6 @@
 Bataille Navale 2.0
 
-(c) Emeraude, 2012-2013
+Developped by : Emeraude
 
 I. How to use Bataille Navale 2.0 ?
 
@@ -9,15 +9,9 @@ I. How to use Bataille Navale 2.0 ?
 II. Tools used
 
  Language : C++
- IDE : Code::blocks
  Compiler : gcc
- Editors : vim ; notepad++
- OS : linux ; windows
- 
- Soon :
-  Library : SDL (graphics) ? Qt ?
-  Languages : HTML5 ; CSS3 ; PHP ; SQL; JavaScript (website)
-  Others : Gimp ? (graphics)
+ Editors : vim
+ OS : linux
 
 III. Requirements
 
@@ -28,10 +22,6 @@ III. Requirements
  Compiler : gcc
  HDD : 2Mio
 
-IV. Others
-
- Coming soon ;)
-
-V. Changelog
+IV. Changelog
 
  View file changelog.txt
