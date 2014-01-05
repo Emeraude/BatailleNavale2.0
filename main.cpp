@@ -1,24 +1,8 @@
-/**
-
-Manque: -Interface utilisateur
-        -Interface graphique
-        -IA
-
-**/
-
-#include <iostream>                                                                                                                                                                                                                                                                                                                                //huhu
+#include <iostream>
 #include <ctime>
 #include <cstdlib>
 
-#include "constantes.hpp"
-#include "structures.hpp"
-#include "fonctions.hpp"
-
-#include "menu.hpp"
-#include "jeu.hpp"
-#include "credits.hpp"
-#include "halloffame.hpp"
-#include "joueur.hpp"
+#include "battleship.hpp"
 
 using namespace std;
 

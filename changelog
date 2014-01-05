@@ -1,0 +1,33 @@
+v13.12.06
+-Hall of fame is removed
+-code::blocks file is removed
+-Makefile
+-Many ptimisations
+
+v13.02.26
+
+-Minor correction in credits
+
+v13.02.11
+
+-Add files readme and changelog
+
+v12.12.06
+
+-Remove koxtun from credits
+
+v12.12.05
+
+-New functions :
+ test existence of a boat
+ return list of cases of a boat
+ return informations about a boat
+
+v12.12.04
+
+-Credits improvement
+
+v12.11.30
+
+-First commit
+-Name of the version is the date ; it will change in the non-beta version

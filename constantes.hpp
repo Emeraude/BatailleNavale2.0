@@ -31,19 +31,16 @@
 
 #define PERSONNE        401
 
-/** MACROS **/
-
-#define URL "http://emeraude77.legtux.org/"
-#define GIT https://github.com/Emeraude/BatailleNavale2.0
+#define URL		"http://emeraude77.legtux.org/"
 
 /** Linux **/
 
-#ifdef __LINUX__
+#ifdef __GNUC__
     #define CLEAR system("clear")
     #define OS "linux"
-    #define PAUSE system("read -n1 -r -p "Press any key to continue..." key")
-    #define SITE_WEB system("/etc/alternatives/x-www-browser http://emeraude77.legtux.org/")
-    #define GITHUB system("/etc/alternatives/x-www-browser https://github.com/Emeraude/BatailleNavale2.0")
+    #define PAUSE system("read -p "Press any key to continue..." key")
+    #define SITE_WEB system("$BROWSER http://emeraude77.legtux.org/")
+    #define GITHUB system("$BROWSER https://github.com/Emeraude/BatailleNavale2.0")
 #endif
 
 /** Mac OS **/
@@ -51,7 +48,7 @@
 #ifdef __APPLE__
     #define CLEAR system("clear")
     #define OS "mac os"
-    #define PAUSE system("read -n1 -r -p "Press any key to continue..." key")
+    #define PAUSE system("read -p "Press any key to continue..." key")
     #define SITE_WEB system("open http://emeraude77.legtux.org/")
     #define GITHUB system("open https://github.com/Emeraude/BatailleNavale2.0")
 #endif
@@ -71,7 +68,5 @@
     #define SITE_WEB system("start http://emeraude77.legtux.org/")
     #define GITHUB system("start https://github.com/Emeraude/BatailleNavale2.0")
 #endif
-
-#define PAUSE system("pause")
 
 #endif

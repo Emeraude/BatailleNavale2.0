@@ -5,10 +5,8 @@
 
 #include "constantes.hpp"
 #include "structures.hpp"
-
 #include "joueur.hpp"
-
-#include "jeu.hpp"
+#include "battleship.hpp"
 
 using namespace std;
 

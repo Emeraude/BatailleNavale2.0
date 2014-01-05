@@ -1,0 +1,27 @@
+Bataille Navale 2.0
+
+Developped by : Emeraude
+
+I. How to use Bataille Navale 2.0 ?
+
+ Actually, it's just a test version, you have to compile the files to try it.
+
+II. Tools used
+
+ Language : C++
+ Compiler : g++
+ Editor : vim
+ OS : GNU/Linux
+
+III. Requirements
+
+ OS : GNU/Linux, Unix, BSD, Mac OS, Solaris, Windows or others who support C++ compiler
+ CPU : all
+ GPU : /
+ RAM : 5Kio
+ Compiler : g++
+ HDD : 2Mio
+
+IV. Changelog
+
+ View file changelog
