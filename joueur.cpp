@@ -2,15 +2,11 @@
 #include <cmath>
 #include <vector>
 
-#include "constantes.hpp"
-#include "structures.hpp"
-#include "fonctions.hpp"
-
+#include "battleship.hpp"
 #include "joueur.hpp"
 
 using namespace std;
 
-Joueur::Joueur(){}
 Joueur::Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, int type, int numero_joueur)
 {
     m_port.pos.x=pos_port_x;
@@ -62,6 +58,7 @@ int Joueur::getVie()
 Bateau Joueur::getBateau(int x)
 {
     if(bateauExiste(m_bateaux[x])) return m_bateaux[x];
+    else return m_bateaux[0];
 }
 int Joueur::getNombreBateaux()
 {
@@ -251,7 +248,7 @@ void Joueur::taperPlateforme(Case map[][LARGEUR], int x)
     map[m_plateformes[x].pos.x][m_plateformes[x].pos.y].joueur=PERSONNE;
     m_nombre_plateformes--;
 }
-void Joueur::taperBateau(Case map[][LARGEUR],int degats, int x)
+void Joueur::taperBateau(Case map[][LARGEUR], int x)
 {
     int i;
     m_bateaux[x].vie-=1;

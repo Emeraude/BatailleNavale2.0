@@ -4,13 +4,11 @@
 
 #include "battleship.hpp"
 
-using namespace std;
-
 int main()
 {
     srand(time(NULL));
 
-    menu();
+    jeu();
 
     return 0;
 }

@@ -3,8 +3,6 @@
 #include <ctime>
 #include <cstdlib>
 
-#include "constantes.hpp"
-#include "structures.hpp"
 #include "joueur.hpp"
 #include "battleship.hpp"
 
@@ -31,8 +29,6 @@ void jeu()
     players.push_back(Joueur(map,HAUTEUR/2,LARGEUR-1,IA,2));
 
     cout << nb_petrole << endl;
-
-    CLEAR;
 
     while(i<nb_petrole)
     {
@@ -62,13 +58,5 @@ void jeu()
         cin >> choix;
         if(choix=="Q"||choix=="q") partie_finie=true;
         else partie_finie=false;
-    }
-
-    /** enregistrement des scores **/
-
-    while(choix!="M"&&choix!="m")
-    {
-        cout << "M pour revenir au menu" << endl;
-        cin >> choix;
     }
 }

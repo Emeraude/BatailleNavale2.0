@@ -1,6 +1,7 @@
 #ifndef CLASS_JOUEUR
 #define CLASS_JOUEUR
 
+#include "battleship.hpp"
 #include <vector>
 
 class Joueur
@@ -20,20 +21,15 @@ class Joueur
 
     public:
 
-    Joueur();
     Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, int type, int numero_joueur);
     Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, int type, int numero_joueur, int vie, int argent, int petrole);
     ~Joueur();
 
-    /** Accesseurs **/
-
-    int getArgent(); // retourne m_argent
-    int getPetrole(); // retourne m_petrole;
-    int getVie(); // retourne m_port.vie;
-    Bateau getBateau(int x); // retourne m_bateaux[x];
-    int getNombreBateaux(); // retourne m_nombre_bateaux;
-
-    /** Méthodes **/
+    int getArgent();
+    int getPetrole();
+    int getVie();
+    Bateau getBateau(int x);
+    int getNombreBateaux();
 
     void recupererPetrole(Case map[][LARGEUR],int quantite); // récolte du pétrole;
     void vendrePetrole(int quantite); // vend quantite de pétrole;
@@ -41,7 +37,7 @@ class Joueur
     void acheterPlateforme(Case map[][LARGEUR], int pos_x, int pos_y); // paramètres : map ; coordonnées de la plateforme;
     void taperPort(Case map[][LARGEUR], int degats);
     void taperPlateforme(Case map[][LARGEUR],int x); // x=position dans le tableau dynamique
-    void taperBateau(Case map[][LARGEUR],int degats, int x);// x=position dans le tableau dynamique
+    void taperBateau(Case map[][LARGEUR], int x);// x=position dans le tableau dynamique
 };
 
 #endif

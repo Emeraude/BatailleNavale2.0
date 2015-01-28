@@ -1,15 +1,15 @@
-SRCS	= credits.cpp \
-	  jeu.cpp \
+SRCS	= jeu.cpp \
 	  joueur.cpp \
 	  main.cpp \
-	  menu.cpp \
 	  fonctions.cpp
 
 OBJS	= $(SRCS:.cpp=.o)
 
-CFLAGS	+= -W -Wall
+CPPFLAGS	+= -W -Wall -Wextra -Werror
 
 NAME	= battleship_2
+
+RM	= rm -f
 
 all:	$(NAME)
 
@@ -17,10 +17,10 @@ $(NAME):	$(OBJS)
 	g++ -o $(NAME) $(OBJS)
 
 clean:
-	rm -f $(OBJS)
+	$(RM) $(OBJS)
 
 fclean: clean
-	rm -f $(NAME)
+	$(RM) $(NAME)
 
 re:	fclean all
 
