@@ -7,46 +7,49 @@
 
 Joueur::Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, int type, int numero_joueur, int vie, int argent, int petrole)
 {
-    m_port.pos.x=pos_port_x;
-    m_port.pos.y=pos_port_y;
-    map[m_port.pos.x][m_port.pos.y].type=PORT;
-    m_type=type;
-    m_numero_joueur=numero_joueur;
-    m_port.vie=vie;
-    m_argent=argent;
-    m_petrole=petrole;
-    m_nombre_plateformes=0;
-    m_nombre_bateaux=0;
-    m_score=0;
+    _port.pos.x=pos_port_x;
+    _port.pos.y=pos_port_y;
+    map[_port.pos.x][_port.pos.y].type=PORT;
+    _type=type;
+    _numero_joueur=numero_joueur;
+    _port.vie=vie;
+    _argent=argent;
+    _petrole=petrole;
+    _nombre_plateformes=0;
+    _nombre_bateaux=0;
+    _score=0;
 }
 Joueur::~Joueur()
 {
-    m_plateformes.~vector();
-    m_bateaux.~vector();
+    _plateformes.~vector();
+    _bateaux.~vector();
 }
 
 /** ACCESSEURS **/
 
 int Joueur::getArgent()
 {
-    return m_argent;
+    return _argent;
 }
+
 int Joueur::getPetrole()
 {
-    return m_petrole;
+    return _petrole;
 }
+
 int Joueur::getVie()
 {
-    return m_port.vie;
+    return _port.vie;
 }
+
 Bateau Joueur::getBateau(int x)
 {
-    if(bateauExiste(m_bateaux[x])) return m_bateaux[x];
-    else return m_bateaux[0];
+  return _bateaux[bateauExiste(_bateaux[x]) ? x : 0];
 }
+
 int Joueur::getNombreBateaux()
 {
-    return m_nombre_bateaux;
+    return _nombre_bateaux;
 }
 
 /** MÉTHODES **/
@@ -56,21 +59,21 @@ void Joueur::recupererPetrole(Case map[][LARGEUR],int quantite)
     int i,prix(0);
     Position position;
 
-    if(quantite>m_nombre_plateformes+1) std::cout << "Vous n'avez pas suffisamment de plateformes petrolieres." << std::endl;
+    if(quantite>_nombre_plateformes+1) std::cout << "Vous n'avez pas suffisamment de plateformes petrolieres." << std::endl;
     else
     {
-        position=trouverPetrole(map,m_port.pos.x,m_port.pos.y);
-        prix+=500*distance(position.x,position.y,m_port.pos.x,m_port.pos.y);
+        position=trouverPetrole(map,_port.pos.x,_port.pos.y);
+        prix+=500*distance(position.x,position.y,_port.pos.x,_port.pos.y);
 
         for(i=0;i<quantite;i++)
         {
-            position=trouverPetrole(map,m_plateformes[i].pos.x,m_plateformes[i].pos.y);
-            prix+=distance(position.x,position.y,m_plateformes[i].pos.x,m_plateformes[i].pos.y);
+            position=trouverPetrole(map,_plateformes[i].pos.x,_plateformes[i].pos.y);
+            prix+=distance(position.x,position.y,_plateformes[i].pos.x,_plateformes[i].pos.y);
         }
-        if(prix>=m_argent)
+        if(prix>=_argent)
         {
-            m_argent-=prix;
-            m_petrole+=1+i;
+            _argent-=prix;
+            _petrole+=1+i;
         }
         else
         {
@@ -80,15 +83,15 @@ void Joueur::recupererPetrole(Case map[][LARGEUR],int quantite)
 }
 void Joueur::vendrePetrole(int quantite)
 {
-    if(quantite>m_petrole)
+    if(quantite>_petrole)
     {
-      std::cout << "Vous n'avez que " << m_petrole << " barils de pétrole et ne pouvez en vendre " << quantite << "." << std::endl;
+      std::cout << "Vous n'avez que " << _petrole << " barils de pétrole et ne pouvez en vendre " << quantite << "." << std::endl;
     }
     else
     {
-        m_petrole-=quantite;
-        m_argent+=quantite*5000;
-	std::cout << "Vous avez vendu " << quantite << " barils de pétrole pour la somme de " << quantite*5000 << " $." << std::endl << "Il vous reste " << m_petrole << " Barils." << std::endl;
+        _petrole-=quantite;
+        _argent+=quantite*5000;
+	std::cout << "Vous avez vendu " << quantite << " barils de pétrole pour la somme de " << quantite*5000 << " $." << std::endl << "Il vous reste " << _petrole << " Barils." << std::endl;
     }
 }
 void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y, int direction)
@@ -138,52 +141,52 @@ void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y
                 }
             }
         }
-        if(m_petrole<coutPetrole(m_port,pos_x,pos_y))
+        if(_petrole<coutPetrole(_port,pos_x,pos_y))
         {
 	  std::cout << "Vous n'avez pas assez de petrole pour placer un bateau ici." << std::endl;
             e=true;
         }
         if(e==false)
         {
-            if(m_argent>=1000*pow(2,taille-1))
+            if(_argent>=1000*pow(2,taille-1))
             {
-                m_argent-=1000*pow(2,taille-1);
-                m_petrole-=coutPetrole(m_port,pos_x,pos_y);
-                m_bateaux.push_back(Bateau());
-                m_bateaux.back().bonus_portee=false;
-                m_bateaux.back().bonus_puissance=false;
-                m_bateaux.back().taille=taille;
-                m_bateaux.back().pos.x=pos_x;
-                m_bateaux.back().pos.y=pos_y;
-                m_bateaux.back().direction=direction;
-                m_bateaux.back().vie=taille;
-                m_nombre_bateaux++;
+                _argent-=1000*pow(2,taille-1);
+                _petrole-=coutPetrole(_port,pos_x,pos_y);
+                _bateaux.push_back(Bateau());
+                _bateaux.back().bonus_portee=false;
+                _bateaux.back().bonus_puissance=false;
+                _bateaux.back().taille=taille;
+                _bateaux.back().pos.x=pos_x;
+                _bateaux.back().pos.y=pos_y;
+                _bateaux.back().direction=direction;
+                _bateaux.back().vie=taille;
+                _nombre_bateaux++;
                 for(i=0;i<taille;i++)
                 {
                     if(direction==HAUT)
                     {
                         map[pos_x-i][pos_y].type=BATEAU;
-                        map[pos_x-i][pos_y].joueur=m_numero_joueur;
+                        map[pos_x-i][pos_y].joueur=_numero_joueur;
                     }
                     else if(direction==BAS)
                     {
                         map[pos_x+i][pos_y].type=BATEAU;
-                        map[pos_x+i][pos_y].joueur=m_numero_joueur;
+                        map[pos_x+i][pos_y].joueur=_numero_joueur;
                     }
                     else if(direction==GAUCHE)
                     {
                         map[pos_x][pos_y-i].type=BATEAU;
-                        map[pos_x][pos_y-i].joueur=m_numero_joueur;
+                        map[pos_x][pos_y-i].joueur=_numero_joueur;
                     }
                     else if(direction==DROITE)
                     {
                         map[pos_x][pos_y+i].type=BATEAU;
-                        map[pos_x][pos_y+i].joueur=m_numero_joueur;
+                        map[pos_x][pos_y+i].joueur=_numero_joueur;
                     }
                 }
             }
             else
-	      std::cout << "Ce bateau coute " << pow(2,taille-1) << "$ et vous ne disposez que de " << m_argent << "$." << std::endl;
+	      std::cout << "Ce bateau coute " << pow(2,taille-1) << "$ et vous ne disposez que de " << _argent << "$." << std::endl;
         }
     }
 }
@@ -195,71 +198,71 @@ void Joueur::acheterPlateforme(Case map[][LARGEUR], int pos_x, int pos_y)
       std::cout << "La case aux coordonnées " << pos_x << "|" << pos_y << " n'est pas libre." << std::endl;
       e=true;
     }
-    if(m_petrole<coutPetrole(m_port,pos_x,pos_y))
+    if(_petrole<coutPetrole(_port,pos_x,pos_y))
     {
       std::cout << "Vous n'avez pas assez de petrole pour placer un bateau ici." << std::endl;
       e=true;
     }
-    if(m_argent<5000)
+    if(_argent<5000)
     {
-      std::cout << "Une plateforme petroliere coute 5000$ et vous ne disposez que de " << m_argent << "$." << std::endl;
+      std::cout << "Une plateforme petroliere coute 5000$ et vous ne disposez que de " << _argent << "$." << std::endl;
       e=true;
     }
     if (!e)
     {
-        m_argent-=5000;
-        m_petrole-=coutPetrole(m_port,pos_x,pos_y);
+        _argent-=5000;
+        _petrole-=coutPetrole(_port,pos_x,pos_y);
         map[pos_x][pos_y].type=PLATEFORME;
-        map[pos_x][pos_y].joueur=m_numero_joueur;
-        m_plateformes.push_back(Plateforme());
-        m_plateformes.back().pos.x=pos_x;
-        m_plateformes.back().pos.y=pos_y;
-        m_nombre_plateformes++;
+        map[pos_x][pos_y].joueur=_numero_joueur;
+        _plateformes.push_back(Plateforme());
+        _plateformes.back().pos.x=pos_x;
+        _plateformes.back().pos.y=pos_y;
+        _nombre_plateformes++;
     }
 }
 void Joueur::taperPort(Case map[][LARGEUR], int degats)
 {
-    map[m_port.pos.x][m_port.pos.y].type=CASE_DETRUITE;
-    map[m_port.pos.x][m_port.pos.y].joueur=PERSONNE;
-    m_port.vie-=degats;
+    map[_port.pos.x][_port.pos.y].type=CASE_DETRUITE;
+    map[_port.pos.x][_port.pos.y].joueur=PERSONNE;
+    _port.vie-=degats;
 }
 void Joueur::taperPlateforme(Case map[][LARGEUR], int x)
 {
-    m_plateformes[x].~Plateforme();
-    map[m_plateformes[x].pos.x][m_plateformes[x].pos.y].type=CASE_DETRUITE;
-    map[m_plateformes[x].pos.x][m_plateformes[x].pos.y].joueur=PERSONNE;
-    m_nombre_plateformes--;
+    _plateformes[x].~Plateforme();
+    map[_plateformes[x].pos.x][_plateformes[x].pos.y].type=CASE_DETRUITE;
+    map[_plateformes[x].pos.x][_plateformes[x].pos.y].joueur=PERSONNE;
+    _nombre_plateformes--;
 }
 void Joueur::taperBateau(Case map[][LARGEUR], int x)
 {
     int i;
-    m_bateaux[x].vie-=1;
-    if(m_bateaux[x].vie<=0)
+    _bateaux[x].vie-=1;
+    if(_bateaux[x].vie<=0)
     {
-        for(i=0;i<m_bateaux[x].taille;i++)
+        for(i=0;i<_bateaux[x].taille;i++)
         {
-            if(m_bateaux[x].direction==HAUT)
+            if(_bateaux[x].direction==HAUT)
             {
-                map[m_bateaux[x].pos.x-i][m_bateaux[x].pos.y].type=CASE_DETRUITE;
-                map[m_bateaux[x].pos.x-i][m_bateaux[x].pos.y].joueur=PERSONNE;
+                map[_bateaux[x].pos.x-i][_bateaux[x].pos.y].type=CASE_DETRUITE;
+                map[_bateaux[x].pos.x-i][_bateaux[x].pos.y].joueur=PERSONNE;
             }
-            else if(m_bateaux[x].direction==BAS)
+            else if(_bateaux[x].direction==BAS)
             {
-                map[m_bateaux[x].pos.x+i][m_bateaux[x].pos.y].type=CASE_DETRUITE;
-                map[m_bateaux[x].pos.x+i][m_bateaux[x].pos.y].joueur=PERSONNE;
+                map[_bateaux[x].pos.x+i][_bateaux[x].pos.y].type=CASE_DETRUITE;
+                map[_bateaux[x].pos.x+i][_bateaux[x].pos.y].joueur=PERSONNE;
             }
-            else if(m_bateaux[x].direction==GAUCHE)
+            else if(_bateaux[x].direction==GAUCHE)
             {
-                map[m_bateaux[x].pos.x][m_bateaux[x].pos.y-i].type=CASE_DETRUITE;
-                map[m_bateaux[x].pos.x][m_bateaux[x].pos.y-i].joueur=PERSONNE;
+                map[_bateaux[x].pos.x][_bateaux[x].pos.y-i].type=CASE_DETRUITE;
+                map[_bateaux[x].pos.x][_bateaux[x].pos.y-i].joueur=PERSONNE;
             }
-            else if(m_bateaux[x].direction==DROITE)
+            else if(_bateaux[x].direction==DROITE)
             {
-                map[m_bateaux[x].pos.x][m_bateaux[x].pos.y+i].type=CASE_DETRUITE;
-                map[m_bateaux[x].pos.x][m_bateaux[x].pos.y+i].joueur=PERSONNE;
+                map[_bateaux[x].pos.x][_bateaux[x].pos.y+i].type=CASE_DETRUITE;
+                map[_bateaux[x].pos.x][_bateaux[x].pos.y+i].joueur=PERSONNE;
             }
         }
-        m_bateaux[x].~Bateau();
-        m_nombre_bateaux--;
+        _bateaux[x].~Bateau();
+        _nombre_bateaux--;
     }
 }

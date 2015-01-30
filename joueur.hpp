@@ -7,16 +7,16 @@
 class Joueur
 {
 private:
-    Port m_port;
-    std::vector<Plateforme> m_plateformes;
-    std::vector<Bateau> m_bateaux;
-    int m_argent;
-    int m_petrole;
-    int m_nombre_plateformes;
-    int m_nombre_bateaux;
-    int m_score;
-    int m_type;
-    int m_numero_joueur;
+    Port _port;
+    std::vector<Plateforme> _plateformes;
+    std::vector<Bateau> _bateaux;
+    int _argent;
+    int _petrole;
+    int _nombre_plateformes;
+    int _nombre_bateaux;
+    int _score;
+    int _type;
+    int _numero_joueur;
 
 public:
     Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, int type, int numero_joueur, int vie = 20, int argent = 100000, int petrole = 5);
