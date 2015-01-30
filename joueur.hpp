@@ -13,10 +13,10 @@ private:
     std::vector<Boat *> _bateaux;
     int _argent;
     int _petrole;
-    int _type;
+    Type _type;
 
 public:
-    Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, int type, int vie = 20, int argent = 100000, int petrole = 5);
+    Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, Type type = HUMAN, int vie = 20, int argent = 100000, int petrole = 5);
     ~Joueur();
 
     int getArgent();

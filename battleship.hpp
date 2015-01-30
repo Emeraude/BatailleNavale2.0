@@ -16,11 +16,7 @@
 
 enum Case {PORT, PETROLE, PLATEFORME, BATEAU, CASE_LIBRE, CASE_DETRUITE};
 enum Direction {HORIZONTAL, VERTICAL};
-
-#define IA              301
-#define HUMAIN          302
-
-#define PERSONNE        401
+enum Type {AI, HUMAN};
 
 typedef struct Position Position;
 struct Position

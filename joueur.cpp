@@ -5,7 +5,7 @@
 #include "battleship.hpp"
 #include "joueur.hpp"
 
-Joueur::Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, int type, int vie, int argent, int petrole)
+Joueur::Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, Type type, int vie, int argent, int petrole)
 {
     _port.pos.x=pos_port_x;
     _port.pos.y=pos_port_y;

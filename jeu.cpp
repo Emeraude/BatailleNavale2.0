@@ -23,8 +23,8 @@ void jeu()
         }
     }
 
-    players.push_back(Joueur(map,HAUTEUR/2,0,HUMAIN,1));
-    players.push_back(Joueur(map,HAUTEUR/2,LARGEUR-1,IA,2));
+    players.push_back(Joueur(map,HAUTEUR/2,0,HUMAN,1));
+    players.push_back(Joueur(map,HAUTEUR/2,LARGEUR-1,AI,2));
 
     std::cout << nb_petrole << std::endl;
 
