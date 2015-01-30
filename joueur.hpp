@@ -27,11 +27,11 @@ public:
 
     void recupererPetrole(Case map[][LARGEUR],int quantite); // récolte du pétrole;
     void vendrePetrole(int quantite); // vend quantite de pétrole;
-    void acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y, int direction); // paramètres : map ; taille du bateau ; coordonnées d'une extrêmité du bateau ; direction du bateau (utiliser constantes);
+    void acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y, Direction direction);
     void acheterPlateforme(Case map[][LARGEUR], int pos_x, int pos_y); // paramètres : map ; coordonnées de la plateforme;
     void taperPort(Case map[][LARGEUR], int degats);
-    void taperPlateforme(Case map[][LARGEUR],int x); // x=position dans le tableau dynamique
-    void taperBateau(Case map[][LARGEUR], int x);// x=position dans le tableau dynamique
+    void taperPlateforme(Case map[][LARGEUR],int x);
+    void taperBateau(Case map[][LARGEUR], int x);
 };
 
 #endif

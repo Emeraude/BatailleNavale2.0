@@ -1,13 +1,13 @@
 #include "boat.hpp"
 
-Boat::Boat(int size, int x, int y, int direction) {
+Boat::Boat(int size, int x, int y, Direction dir) {
   _size = size;
   _life = _size;
   _bonus_range = false;
   _bonus_power = false;
   _x = x;
   _y = y;
-  _direction = direction;
+  _direction = dir;
 }
 
 Boat::~Boat() {}

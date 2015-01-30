@@ -11,10 +11,10 @@ private:
   bool _bonus_power;
   int _x;
   int _y;
-  int _direction;
+  Direction _direction;
 
 public:
-  Boat(int size = 1, int x = 0, int y = 0, int direction = VERTICAL);
+  Boat(int size = 1, int x = 0, int y = 0, Direction dir = VERTICAL);
   ~Boat();
 
   void takeDamage(int dmg);

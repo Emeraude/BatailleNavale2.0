@@ -85,7 +85,7 @@ void Joueur::vendrePetrole(int quantite)
     }
 }
 
-void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y, int direction)
+void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y, Direction direction)
 {
     int i;
     bool e = false;
@@ -187,7 +187,7 @@ void Joueur::taperBateau(Case map[][LARGEUR], int x)
       for (int i = 0; i < _bateaux[x]->getSize(); ++i) {
 	if (_bateaux[x]->getDirection() == VERTICAL)
 	  map[_bateaux[x]->getX() - i][_bateaux[x]->getY()]=CASE_DETRUITE;
-	else if (_bateaux[x]->getDirection() == HORIZONTAL)
+	else
 	  map[_bateaux[x]->getX()][_bateaux[x]->getY() - i]=CASE_DETRUITE;
       }
       delete _bateaux[x];
