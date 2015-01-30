@@ -5,8 +5,6 @@
 #include "battleship.hpp"
 #include "joueur.hpp"
 
-using namespace std;
-
 Joueur::Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, int type, int numero_joueur)
 {
     m_port.pos.x=pos_port_x;
@@ -72,7 +70,7 @@ void Joueur::recupererPetrole(Case map[][LARGEUR],int quantite)
     int i,prix(0);
     Position position;
 
-    if(quantite>m_nombre_plateformes+1) cout << "Vous n'avez pas suffisamment de plateformes petrolieres." << endl;
+    if(quantite>m_nombre_plateformes+1) std::cout << "Vous n'avez pas suffisamment de plateformes petrolieres." << std::endl;
     else
     {
         position=trouverPetrole(map,m_port.pos.x,m_port.pos.y);
@@ -90,7 +88,7 @@ void Joueur::recupererPetrole(Case map[][LARGEUR],int quantite)
         }
         else
         {
-            cout << "Vous n'avez pas suffisamment d'argent" << endl;
+	  std::cout << "Vous n'avez pas suffisamment d'argent" << std::endl;
         }
     }
 }
@@ -98,24 +96,24 @@ void Joueur::vendrePetrole(int quantite)
 {
     if(quantite>m_petrole)
     {
-        cout << "Vous n'avez que " << m_petrole << " barils de pétrole et ne pouvez en vendre " << quantite << "." << endl;
+      std::cout << "Vous n'avez que " << m_petrole << " barils de pétrole et ne pouvez en vendre " << quantite << "." << std::endl;
     }
     else
     {
         m_petrole-=quantite;
         m_argent+=quantite*5000;
-        cout << "Vous avez vendu " << quantite << " barils de pétrole pour la somme de " << quantite*5000 << " $." << endl << "Il vous reste " << m_petrole << " Barils." <<endl;
+	std::cout << "Vous avez vendu " << quantite << " barils de pétrole pour la somme de " << quantite*5000 << " $." << std::endl << "Il vous reste " << m_petrole << " Barils." << std::endl;
     }
 }
 void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y, int direction)
 {
     int i;
-    bool e(false);
+    bool e = false;
 
     if(map[pos_x][pos_y].type!=CASE_LIBRE)
     {
-        cout << "La case aux coordonnées " << pos_x << "|" << pos_y << " n'est pas libre." << endl;
-        e=true;
+      std::cout << "La case aux coordonnées " << pos_x << "|" << pos_y << " n'est pas libre." << std::endl;
+      e=true;
     }
     else
     {
@@ -125,7 +123,7 @@ void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y
             {
                 if(map[pos_x-i][pos_y].type!=CASE_LIBRE)
                 {
-                    cout << "La case aux coordonnees " << pos_x-i << "|" << pos_y << " n'est pas libre." << endl;
+		  std::cout << "La case aux coordonnees " << pos_x-i << "|" << pos_y << " n'est pas libre." << std::endl;
                     e=true;
                 }
             }
@@ -133,30 +131,30 @@ void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y
             {
                 if(map[pos_x+i][pos_y].type!=CASE_LIBRE)
                 {
-                    cout << "La case aux coordonnees " << pos_x+i << "|" << pos_y << " n'est pas libre." << endl;
-                    e=true;
+		  std::cout << "La case aux coordonnees " << pos_x+i << "|" << pos_y << " n'est pas libre." << std::endl;
+		  e=true;
                 }
             }
             else if(direction==GAUCHE&&pos_y-i>=0)
             {
                 if(map[pos_x][pos_y-i].type!=CASE_LIBRE)
                 {
-                    cout << "La case aux coordonnees " << pos_x << "|" << pos_y-1 << " n'est pas libre." << endl;
-                    e=true;
+		  std::cout << "La case aux coordonnees " << pos_x << "|" << pos_y-1 << " n'est pas libre." << std::endl;
+		  e=true;
                 }
             }
             else if(direction==DROITE&&pos_y+i<LARGEUR)
             {
                 if(map[pos_x][pos_y+i].type!=CASE_LIBRE)
                 {
-                    cout << "La case aux coordonnees " << pos_x << "|" << pos_y+i << " n'est pas libre." << endl;
-                    e=true;
+		  std::cout << "La case aux coordonnees " << pos_x << "|" << pos_y+i << " n'est pas libre." << std::endl;
+		  e=true;
                 }
             }
         }
         if(m_petrole<coutPetrole(m_port,pos_x,pos_y))
         {
-            cout << "Vous n'avez pas assez de petrole pour placer un bateau ici." << endl;
+	  std::cout << "Vous n'avez pas assez de petrole pour placer un bateau ici." << std::endl;
             e=true;
         }
         if(e==false)
@@ -199,9 +197,7 @@ void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y
                 }
             }
             else
-            {
-                cout << "Ce bateau coute " << pow(2,taille-1) << "$ et vous ne disposez que de " << m_argent << "$." << endl;
-            }
+	      std::cout << "Ce bateau coute " << pow(2,taille-1) << "$ et vous ne disposez que de " << m_argent << "$." << std::endl;
         }
     }
 }
@@ -210,20 +206,20 @@ void Joueur::acheterPlateforme(Case map[][LARGEUR], int pos_x, int pos_y)
     bool e=false;
     if(map[pos_x][pos_y].type!=CASE_LIBRE)
     {
-        cout << "La case aux coordonnées " << pos_x << "|" << pos_y << " n'est pas libre." << endl;
-        e=true;
+      std::cout << "La case aux coordonnées " << pos_x << "|" << pos_y << " n'est pas libre." << std::endl;
+      e=true;
     }
     if(m_petrole<coutPetrole(m_port,pos_x,pos_y))
     {
-        cout << "Vous n'avez pas assez de petrole pour placer un bateau ici." << endl;
-        e=true;
+      std::cout << "Vous n'avez pas assez de petrole pour placer un bateau ici." << std::endl;
+      e=true;
     }
     if(m_argent<5000)
     {
-        cout << "Une plateforme petroliere coute 5000$ et vous ne disposez que de " << m_argent << "$." << endl;
-        e=true;
+      std::cout << "Une plateforme petroliere coute 5000$ et vous ne disposez que de " << m_argent << "$." << std::endl;
+      e=true;
     }
-    if(e==false)
+    if (!e)
     {
         m_argent-=5000;
         m_petrole-=coutPetrole(m_port,pos_x,pos_y);

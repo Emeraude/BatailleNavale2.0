@@ -5,8 +5,6 @@
 #include "battleship.hpp"
 #include "joueur.hpp"
 
-using namespace std;
-
 int distance(int x_a, int y_a, int x_b, int y_b)
 {
     return fabs(y_a-y_b)+fabs(x_a-x_b)-1;
@@ -87,7 +85,7 @@ Bateau infoBateau(int x, int y, Joueur &joueur)
 {
     unsigned int nb_bateaux,i,j;
     Bateau tmp_bateau;
-    vector<Position> positions;
+    std::vector<Position> positions;
 
     nb_bateaux=joueur.getNombreBateaux();
 
@@ -111,14 +109,14 @@ Bateau infoBateau(int x, int y, Joueur &joueur)
 
 bool bateauExiste(Bateau bateau)
 {
-    if (bateau.vie <= 0
-	|| bateau.taille<bateau.vie || bateau.taille < 0
-	|| bateau.pos.x>HAUTEUR || bateau.pos.x < 0
-	|| bateau.pos.y>LARGEUR || bateau.pos.y < 0
-	|| (bateau.direction != HAUT
-	    && bateau.direction != BAS
-	    && bateau.direction != GAUCHE
-	    && bateau.direction != DROITE))
-      return false;
-    return true;
+  if (bateau.vie <= 0
+      || bateau.taille<bateau.vie || bateau.taille < 0
+      || bateau.pos.x>HAUTEUR || bateau.pos.x < 0
+      || bateau.pos.y>LARGEUR || bateau.pos.y < 0
+      || (bateau.direction != HAUT
+	  && bateau.direction != BAS
+	  && bateau.direction != GAUCHE
+	  && bateau.direction != DROITE))
+    return false;
+  return true;
 }

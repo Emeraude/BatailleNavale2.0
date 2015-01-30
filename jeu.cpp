@@ -6,16 +6,14 @@
 #include "joueur.hpp"
 #include "battleship.hpp"
 
-using namespace std;
-
 void jeu()
 {
     Case map[HAUTEUR][LARGEUR];
     int nb_petrole=rand()%(PETROLE_MAX-PETROLE_MIN+1)+15;
-    int i(0),x,y;
-    bool partie_finie(false);
-    string choix;
-    vector<Joueur> players;
+    int i = 0,x,y;
+    bool partie_finie = false;
+    std::string choix;
+    std::vector<Joueur> players;
 
     for(x=0;x<HAUTEUR;x++)
     {
@@ -28,7 +26,7 @@ void jeu()
     players.push_back(Joueur(map,HAUTEUR/2,0,HUMAIN,1));
     players.push_back(Joueur(map,HAUTEUR/2,LARGEUR-1,IA,2));
 
-    cout << nb_petrole << endl;
+    std::cout << nb_petrole << std::endl;
 
     while(i<nb_petrole)
     {
@@ -47,15 +45,15 @@ void jeu()
         {
             for(y=0;y<LARGEUR;y++)
             {
-                if(map[x][y].type==CASE_LIBRE) cout << " ";
-                else if(map[x][y].type==PETROLE) cout << "p";
-                else if(map[x][y].type==PORT) cout << "z";
-                cout << " ";
+	      if (map[x][y].type==CASE_LIBRE) std::cout << " ";
+	      else if (map[x][y].type==PETROLE) std::cout << "p";
+	      else if (map[x][y].type==PORT) std::cout << "z";
+	      std::cout << " ";
             }
-            cout << endl;
+	    std::cout << std::endl;
         }
-        cout << "Q pour quitter, C pour continuer" << endl;
-        cin >> choix;
+	std::cout << "Q pour quitter, C pour continuer" << std::endl;
+	std::cin >> choix;
         if(choix=="Q"||choix=="q") partie_finie=true;
         else partie_finie=false;
     }

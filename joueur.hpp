@@ -6,8 +6,7 @@
 
 class Joueur
 {
-    private:
-
+private:
     Port m_port;
     std::vector<Plateforme> m_plateformes;
     std::vector<Bateau> m_bateaux;
@@ -19,8 +18,7 @@ class Joueur
     int m_type;
     int m_numero_joueur;
 
-    public:
-
+public:
     Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, int type, int numero_joueur);
     Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, int type, int numero_joueur, int vie, int argent, int petrole);
     ~Joueur();
