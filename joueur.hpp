@@ -19,8 +19,7 @@ private:
     int m_numero_joueur;
 
 public:
-    Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, int type, int numero_joueur);
-    Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, int type, int numero_joueur, int vie, int argent, int petrole);
+    Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, int type, int numero_joueur, int vie = 20, int argent = 100000, int petrole = 5);
     ~Joueur();
 
     int getArgent();

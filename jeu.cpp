@@ -28,7 +28,7 @@ void jeu()
 
     std::cout << nb_petrole << std::endl;
 
-    while(i<nb_petrole)
+    while (i < nb_petrole)
     {
         x=rand()%HAUTEUR;
         y=rand()%LARGEUR;
@@ -54,7 +54,6 @@ void jeu()
         }
 	std::cout << "Q pour quitter, C pour continuer" << std::endl;
 	std::cin >> choix;
-        if(choix=="Q"||choix=="q") partie_finie=true;
-        else partie_finie=false;
+	partie_finie = choix == "Q" || choix == "q";
     }
 }

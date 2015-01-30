@@ -5,20 +5,6 @@
 #include "battleship.hpp"
 #include "joueur.hpp"
 
-Joueur::Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, int type, int numero_joueur)
-{
-    m_port.pos.x=pos_port_x;
-    m_port.pos.y=pos_port_y;
-    map[m_port.pos.x][m_port.pos.y].type=PORT;
-    m_type=type;
-    m_numero_joueur=numero_joueur;
-    m_port.vie=20;
-    m_argent=100000;
-    m_petrole=5;
-    m_nombre_plateformes=0;
-    m_nombre_bateaux=0;
-    m_score=0;
-}
 Joueur::Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, int type, int numero_joueur, int vie, int argent, int petrole)
 {
     m_port.pos.x=pos_port_x;
