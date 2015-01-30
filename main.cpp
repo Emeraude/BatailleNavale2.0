@@ -1,14 +1,11 @@
-#include <iostream>
 #include <ctime>
 #include <cstdlib>
+#include "game.hpp"
 
-#include "battleship.hpp"
+int main(void) {
+  Game game;
 
-int main()
-{
-    srand(time(NULL));
-
-    jeu();
-
-    return 0;
+  srand(time(NULL));
+  game.run();
+  return 0;
 }

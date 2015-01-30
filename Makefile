@@ -1,7 +1,7 @@
 SRCS	= boat.cpp \
-	  jeu.cpp \
-	  main.cpp \
 	  fonctions.cpp \
+	  game.cpp \
+	  main.cpp \
 	  player.cpp \
 	  platform.cpp
 

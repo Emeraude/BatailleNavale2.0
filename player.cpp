@@ -5,15 +5,15 @@
 #include "battleship.hpp"
 #include "player.hpp"
 
-Player::Player(Case map[][LARGEUR],int pos_port_x, int pos_port_y, Type type, int vie, int argent, int petrole)
+Player::Player(Case **map,int pos_port_x, int pos_port_y, Type type, int vie, int argent, int petrole)
 {
-    _port.pos.x=pos_port_x;
-    _port.pos.y=pos_port_y;
-    map[_port.pos.x][_port.pos.y]=PORT;
-    _type=type;
-    _port.vie=vie;
-    _argent=argent;
-    _petrole=petrole;
+    _port.pos.x = pos_port_x;
+    _port.pos.y = pos_port_y;
+    map[_port.pos.x][_port.pos.y] = PORT;
+    _type = type;
+    _port.vie = vie;
+    _argent = argent;
+    _petrole = petrole;
 }
 
 Player::~Player() {
@@ -43,7 +43,7 @@ Boat const& Player::getBateau(int x)
   return *_bateaux[x];
 }
 
-void Player::recupererPetrole(Case map[][LARGEUR],int quantite)
+void Player::recupererPetrole(Case **map,int quantite)
 {
     int i,prix(0);
     Position position;
@@ -85,7 +85,7 @@ void Player::vendrePetrole(int quantite)
     }
 }
 
-void Player::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y, Direction direction)
+void Player::acheterNavire(Case **map, int taille, int pos_x, int pos_y, Direction direction)
 {
     int i;
     bool e = false;
@@ -141,7 +141,7 @@ void Player::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y
         }
     }
 }
-void Player::acheterPlateforme(Case map[][LARGEUR], int pos_x, int pos_y)
+void Player::acheterPlateforme(Case **map, int pos_x, int pos_y)
 {
     if (map[pos_x][pos_y] != EMPTY)
       std::cout << "La case aux coordonnées " << pos_x << "|" << pos_y << " n'est pas libre." << std::endl;
@@ -156,18 +156,19 @@ void Player::acheterPlateforme(Case map[][LARGEUR], int pos_x, int pos_y)
         _platforms.push_back(new Platform(pos_x, pos_y));
     }
 }
-void Player::taperPort(Case map[][LARGEUR], int degats)
+
+void Player::taperPort(Case **map, int degats)
 {
     map[_port.pos.x][_port.pos.y]=DESTROYED;
     _port.vie-=degats;
 }
 
-void Player::taperPlateforme(Case map[][LARGEUR], int x) {
+void Player::taperPlateforme(Case **map, int x) {
   map[_platforms[x]->getX()][_platforms[x]->getY()] = DESTROYED;
   delete _platforms[x];
 }
 
-void Player::taperBateau(Case map[][LARGEUR], int x) {
+void Player::taperBateau(Case **map, int x) {
     _bateaux[x]->takeDamage(1);
     if (_bateaux[x]->getLife() <= 0) {
       for (int i = 0; i < _bateaux[x]->getSize(); ++i) {

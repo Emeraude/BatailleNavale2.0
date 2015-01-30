@@ -14,13 +14,13 @@ int coutPetrole(Port port, int x, int y)
     return ceil(distance(port.pos.x,port.pos.y,x,y)/3);
 }
 
-Position trouverPetroleLePlusProche(Case map[][LARGEUR], int x, int y)
+Position trouverPetroleLePlusProche(Case **map, int x, int y)
 {
     int i,j,c(0),m,n;
     Position z;
-    for(i=0;i<HAUTEUR;i++)
+    for(i=0;map[i];i++)
     {
-        for(j=0;j<LARGEUR;j++)
+        for(j=0;map[i][j] != BORDER;j++)
         {
             if(map[i][j]==OIL&&distance(i,j,x,y)<distance(m,n,x,y))
             {
