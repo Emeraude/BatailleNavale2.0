@@ -1,18 +1,16 @@
 #ifndef BATTLESHIP_HPP_
 # define BATTLESHIP_HPP_
 
-# include <vector>
+# define HAUTEUR         15
+# define LARGEUR         20
 
-#define HAUTEUR         15
-#define LARGEUR         20
+# define PROBA_TSUNAMI   36
+# define DEGATS_TSUNAMI  1
 
-#define PROBA_TSUNAMI   36
-#define DEGATS_TSUNAMI  1
+# define PETROLE_MIN     15
+# define PETROLE_MAX     20
 
-#define PETROLE_MIN     15
-#define PETROLE_MAX     20
-
-#define NOMBRE_JOUEUR   2
+# define NOMBRE_JOUEUR   2
 
 enum Case {PORT, OIL, PLATFORM, BOAT, EMPTY, DESTROYED};
 enum Direction {HORIZONTAL, VERTICAL};
