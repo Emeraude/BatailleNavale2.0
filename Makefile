@@ -7,7 +7,7 @@ OBJS	= $(SRCS:.cpp=.o)
 
 CPPFLAGS	+= -W -Wall -Wextra -Werror
 
-NAME	= battleship_2
+NAME	= battleship
 
 RM	= rm -f
 
