@@ -3,7 +3,6 @@
 #include <cmath>
 
 #include "battleship.hpp"
-#include "joueur.hpp"
 
 int distance(int x_a, int y_a, int x_b, int y_b)
 {
@@ -23,7 +22,7 @@ Position trouverPetroleLePlusProche(Case map[][LARGEUR], int x, int y)
     {
         for(j=0;j<LARGEUR;j++)
         {
-            if(map[i][j]==PETROLE&&distance(i,j,x,y)<distance(m,n,x,y))
+            if(map[i][j]==OIL&&distance(i,j,x,y)<distance(m,n,x,y))
             {
                 if(c==0)
                 {
@@ -39,9 +38,4 @@ Position trouverPetroleLePlusProche(Case map[][LARGEUR], int x, int y)
     z.x=m;
     z.y=n;
     return z;
-}
-
-Position trouverPetrole(Case map[][LARGEUR], int x, int y)
-{
-    return trouverPetroleLePlusProche(map, x, y);
 }

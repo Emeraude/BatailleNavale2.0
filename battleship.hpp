@@ -14,7 +14,7 @@
 
 #define NOMBRE_JOUEUR   2
 
-enum Case {PORT, PETROLE, PLATEFORME, BATEAU, CASE_LIBRE, CASE_DETRUITE};
+enum Case {PORT, OIL, PLATFORM, BOAT, EMPTY, DESTROYED};
 enum Direction {HORIZONTAL, VERTICAL};
 enum Type {AI, HUMAN};
 
@@ -32,19 +32,9 @@ struct Port
     int vie;
 };
 
-typedef struct Plateforme Plateforme;
-struct Plateforme
-{
-    Position pos;
-};
-
-class Joueur;
-class Boat;
-
-int		distance(int x_a, int y_a, int x_b, int y_b); // retourne la distance entre les points de coordonnées x_a|y_a et x_b|y_b
-int		coutPetrole(Port port, int x, int y); // retourne le coût en pétrole d'une case de coordonnées x|y en fonction de sa distance avec le port
-Position	trouverPetroleLePlusProche(Case map[][LARGEUR], int x, int y); // retourne la case de petrole la plus proche de la case de coordonnées x|y
-Position	trouverPetrole(Case map[][LARGEUR], int x, int y); // alias de trouverPetroleLePlusProche
+int		distance(int x_a, int y_a, int x_b, int y_b);
+int		coutPetrole(Port port, int x, int y);
+Position	trouverPetroleLePlusProche(Case map[][LARGEUR], int x, int y);
 void		jeu();
 
 #endif

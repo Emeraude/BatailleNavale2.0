@@ -3,9 +3,9 @@
 #include <vector>
 
 #include "battleship.hpp"
-#include "joueur.hpp"
+#include "player.hpp"
 
-Joueur::Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, Type type, int vie, int argent, int petrole)
+Player::Player(Case map[][LARGEUR],int pos_port_x, int pos_port_y, Type type, int vie, int argent, int petrole)
 {
     _port.pos.x=pos_port_x;
     _port.pos.y=pos_port_y;
@@ -16,48 +16,48 @@ Joueur::Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, Type type, in
     _petrole=petrole;
 }
 
-Joueur::~Joueur() {
+Player::~Player() {
   while (!_bateaux.empty()) {
     delete _bateaux.back();
     _bateaux.pop_back();
   }
 }
 
-int Joueur::getArgent()
+int Player::getArgent()
 {
     return _argent;
 }
 
-int Joueur::getPetrole()
+int Player::getPetrole()
 {
     return _petrole;
 }
 
-int Joueur::getVie()
+int Player::getVie()
 {
     return _port.vie;
 }
 
-Boat const& Joueur::getBateau(int x)
+Boat const& Player::getBateau(int x)
 {
   return *_bateaux[x];
 }
 
-void Joueur::recupererPetrole(Case map[][LARGEUR],int quantite)
+void Player::recupererPetrole(Case map[][LARGEUR],int quantite)
 {
     int i,prix(0);
     Position position;
 
-    if((unsigned)quantite > _plateformes.size()+1) std::cout << "Vous n'avez pas suffisamment de plateformes petrolieres." << std::endl;
+    if((unsigned)quantite > _platforms.size()+1) std::cout << "Vous n'avez pas suffisamment de plateformes petrolieres." << std::endl;
     else
     {
-        position=trouverPetrole(map,_port.pos.x,_port.pos.y);
+        position=trouverPetroleLePlusProche(map,_port.pos.x,_port.pos.y);
         prix+=500*distance(position.x,position.y,_port.pos.x,_port.pos.y);
 
         for(i=0;i<quantite;i++)
         {
-            position=trouverPetrole(map,_plateformes[i].pos.x,_plateformes[i].pos.y);
-            prix+=distance(position.x,position.y,_plateformes[i].pos.x,_plateformes[i].pos.y);
+	  position = trouverPetroleLePlusProche(map, _platforms[i]->getX(), _platforms[i]->getY());
+	  prix += distance(position.x, position.y, _platforms[i]->getX(), _platforms[i]->getY());
         }
         if(prix>=_argent)
         {
@@ -71,7 +71,7 @@ void Joueur::recupererPetrole(Case map[][LARGEUR],int quantite)
     }
 }
 
-void Joueur::vendrePetrole(int quantite)
+void Player::vendrePetrole(int quantite)
 {
     if(quantite>_petrole)
     {
@@ -85,12 +85,12 @@ void Joueur::vendrePetrole(int quantite)
     }
 }
 
-void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y, Direction direction)
+void Player::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y, Direction direction)
 {
     int i;
     bool e = false;
 
-    if(map[pos_x][pos_y]!=CASE_LIBRE)
+    if(map[pos_x][pos_y]!=EMPTY)
     {
       std::cout << "La case aux coordonnées " << pos_x << "|" << pos_y << " n'est pas libre." << std::endl;
       e=true;
@@ -101,7 +101,7 @@ void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y
         {
             if(direction==VERTICAL&&pos_x-i>=0)
             {
-                if(map[pos_x-i][pos_y]!=CASE_LIBRE)
+                if(map[pos_x-i][pos_y]!=EMPTY)
                 {
 		  std::cout << "La case aux coordonnees " << pos_x-i << "|" << pos_y << " n'est pas libre." << std::endl;
 		  e=true;
@@ -109,7 +109,7 @@ void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y
             }
             else if(direction==HORIZONTAL&&pos_y-i>=0)
             {
-                if(map[pos_x][pos_y-i]!=CASE_LIBRE)
+                if(map[pos_x][pos_y-i]!=EMPTY)
                 {
 		  std::cout << "La case aux coordonnees " << pos_x << "|" << pos_y-1 << " n'est pas libre." << std::endl;
 		  e=true;
@@ -131,9 +131,9 @@ void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y
                 for(i=0;i<taille;i++)
                 {
 		    if(direction==VERTICAL)
-		      map[pos_x-i][pos_y]=BATEAU;
-                    else if(direction==HORIZONTAL)
-		      map[pos_x][pos_y-i]=BATEAU;
+		      map[pos_x-i][pos_y] = BOAT;
+                    else
+		      map[pos_x][pos_y-i] = BOAT;
                 }
             }
             else
@@ -141,54 +141,40 @@ void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y
         }
     }
 }
-void Joueur::acheterPlateforme(Case map[][LARGEUR], int pos_x, int pos_y)
+void Player::acheterPlateforme(Case map[][LARGEUR], int pos_x, int pos_y)
 {
-    bool e=false;
-    if(map[pos_x][pos_y]!=CASE_LIBRE)
-    {
+    if (map[pos_x][pos_y] != EMPTY)
       std::cout << "La case aux coordonnées " << pos_x << "|" << pos_y << " n'est pas libre." << std::endl;
-      e=true;
-    }
-    if(_petrole<coutPetrole(_port,pos_x,pos_y))
-    {
+    else if (_petrole < coutPetrole(_port, pos_x, pos_y))
       std::cout << "Vous n'avez pas assez de petrole pour placer un bateau ici." << std::endl;
-      e=true;
-    }
-    if(_argent<5000)
-    {
+    else if (_argent < 5000)
       std::cout << "Une plateforme petroliere coute 5000$ et vous ne disposez que de " << _argent << "$." << std::endl;
-      e=true;
-    }
-    if (!e)
-    {
-        _argent-=5000;
-        _petrole-=coutPetrole(_port,pos_x,pos_y);
-        map[pos_x][pos_y]=PLATEFORME;
-        _plateformes.push_back(Plateforme());
-        _plateformes.back().pos.x=pos_x;
-        _plateformes.back().pos.y=pos_y;
+    else {
+        _argent -= 5000;
+        _petrole -= coutPetrole(_port, pos_x, pos_y);
+        map[pos_x][pos_y] = PLATFORM;
+        _platforms.push_back(new Platform(pos_x, pos_y));
     }
 }
-void Joueur::taperPort(Case map[][LARGEUR], int degats)
+void Player::taperPort(Case map[][LARGEUR], int degats)
 {
-    map[_port.pos.x][_port.pos.y]=CASE_DETRUITE;
+    map[_port.pos.x][_port.pos.y]=DESTROYED;
     _port.vie-=degats;
 }
 
-void Joueur::taperPlateforme(Case map[][LARGEUR], int x)
-{
-    map[_plateformes[x].pos.x][_plateformes[x].pos.y]=CASE_DETRUITE;
+void Player::taperPlateforme(Case map[][LARGEUR], int x) {
+  map[_platforms[x]->getX()][_platforms[x]->getY()] = DESTROYED;
+  delete _platforms[x];
 }
 
-void Joueur::taperBateau(Case map[][LARGEUR], int x)
-{
+void Player::taperBateau(Case map[][LARGEUR], int x) {
     _bateaux[x]->takeDamage(1);
     if (_bateaux[x]->getLife() <= 0) {
       for (int i = 0; i < _bateaux[x]->getSize(); ++i) {
 	if (_bateaux[x]->getDirection() == VERTICAL)
-	  map[_bateaux[x]->getX() - i][_bateaux[x]->getY()]=CASE_DETRUITE;
+	  map[_bateaux[x]->getX() - i][_bateaux[x]->getY()]=DESTROYED;
 	else
-	  map[_bateaux[x]->getX()][_bateaux[x]->getY() - i]=CASE_DETRUITE;
+	  map[_bateaux[x]->getX()][_bateaux[x]->getY() - i]=DESTROYED;
       }
       delete _bateaux[x];
     }

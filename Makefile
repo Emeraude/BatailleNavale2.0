@@ -1,8 +1,9 @@
 SRCS	= boat.cpp \
 	  jeu.cpp \
-	  joueur.cpp \
 	  main.cpp \
-	  fonctions.cpp
+	  fonctions.cpp \
+	  player.cpp \
+	  platform.cpp
 
 OBJS	= $(SRCS:.cpp=.o)
 
