@@ -47,11 +47,9 @@ void Game::display() const {
 void Game::run() const {
   std::string choice;
 
-  while (1) {
+  while (choice != "Q" && choice != "q") {
     this->display();
     std::cout << "Q -> Quit" << std::endl << "C -> Continue" << std::endl;
     std::cin >> choice;
-    if (choice == "Q" || choice == "q")
-      break ;
   }
 }
