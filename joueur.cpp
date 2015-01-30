@@ -5,27 +5,23 @@
 #include "battleship.hpp"
 #include "joueur.hpp"
 
-Joueur::Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, int type, int numero_joueur, int vie, int argent, int petrole)
+Joueur::Joueur(Case map[][LARGEUR],int pos_port_x, int pos_port_y, int type, int vie, int argent, int petrole)
 {
     _port.pos.x=pos_port_x;
     _port.pos.y=pos_port_y;
-    map[_port.pos.x][_port.pos.y].type=PORT;
+    map[_port.pos.x][_port.pos.y]=PORT;
     _type=type;
-    _numero_joueur=numero_joueur;
     _port.vie=vie;
     _argent=argent;
     _petrole=petrole;
-    _nombre_plateformes=0;
-    _nombre_bateaux=0;
-    _score=0;
-}
-Joueur::~Joueur()
-{
-    _plateformes.~vector();
-    _bateaux.~vector();
 }
 
-/** ACCESSEURS **/
+Joueur::~Joueur() {
+  while (!_bateaux.empty()) {
+    delete _bateaux.back();
+    _bateaux.pop_back();
+  }
+}
 
 int Joueur::getArgent()
 {
@@ -47,19 +43,12 @@ Boat const& Joueur::getBateau(int x)
   return *_bateaux[x];
 }
 
-int Joueur::getNombreBateaux()
-{
-    return _nombre_bateaux;
-}
-
-/** MÉTHODES **/
-
 void Joueur::recupererPetrole(Case map[][LARGEUR],int quantite)
 {
     int i,prix(0);
     Position position;
 
-    if(quantite>_nombre_plateformes+1) std::cout << "Vous n'avez pas suffisamment de plateformes petrolieres." << std::endl;
+    if((unsigned)quantite > _plateformes.size()+1) std::cout << "Vous n'avez pas suffisamment de plateformes petrolieres." << std::endl;
     else
     {
         position=trouverPetrole(map,_port.pos.x,_port.pos.y);
@@ -101,7 +90,7 @@ void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y
     int i;
     bool e = false;
 
-    if(map[pos_x][pos_y].type!=CASE_LIBRE)
+    if(map[pos_x][pos_y]!=CASE_LIBRE)
     {
       std::cout << "La case aux coordonnées " << pos_x << "|" << pos_y << " n'est pas libre." << std::endl;
       e=true;
@@ -112,15 +101,15 @@ void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y
         {
             if(direction==VERTICAL&&pos_x-i>=0)
             {
-                if(map[pos_x-i][pos_y].type!=CASE_LIBRE)
+                if(map[pos_x-i][pos_y]!=CASE_LIBRE)
                 {
 		  std::cout << "La case aux coordonnees " << pos_x-i << "|" << pos_y << " n'est pas libre." << std::endl;
-                    e=true;
+		  e=true;
                 }
             }
             else if(direction==HORIZONTAL&&pos_y-i>=0)
             {
-                if(map[pos_x][pos_y-i].type!=CASE_LIBRE)
+                if(map[pos_x][pos_y-i]!=CASE_LIBRE)
                 {
 		  std::cout << "La case aux coordonnees " << pos_x << "|" << pos_y-1 << " n'est pas libre." << std::endl;
 		  e=true;
@@ -130,7 +119,7 @@ void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y
         if(_petrole<coutPetrole(_port,pos_x,pos_y))
         {
 	  std::cout << "Vous n'avez pas assez de petrole pour placer un bateau ici." << std::endl;
-            e=true;
+	  e=true;
         }
         if(!e)
         {
@@ -142,15 +131,9 @@ void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y
                 for(i=0;i<taille;i++)
                 {
 		    if(direction==VERTICAL)
-                    {
-                        map[pos_x-i][pos_y].type=BATEAU;
-                        map[pos_x-i][pos_y].joueur=_numero_joueur;
-                    }
+		      map[pos_x-i][pos_y]=BATEAU;
                     else if(direction==HORIZONTAL)
-                    {
-                        map[pos_x][pos_y-i].type=BATEAU;
-                        map[pos_x][pos_y-i].joueur=_numero_joueur;
-                    }
+		      map[pos_x][pos_y-i]=BATEAU;
                 }
             }
             else
@@ -161,7 +144,7 @@ void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y
 void Joueur::acheterPlateforme(Case map[][LARGEUR], int pos_x, int pos_y)
 {
     bool e=false;
-    if(map[pos_x][pos_y].type!=CASE_LIBRE)
+    if(map[pos_x][pos_y]!=CASE_LIBRE)
     {
       std::cout << "La case aux coordonnées " << pos_x << "|" << pos_y << " n'est pas libre." << std::endl;
       e=true;
@@ -180,27 +163,21 @@ void Joueur::acheterPlateforme(Case map[][LARGEUR], int pos_x, int pos_y)
     {
         _argent-=5000;
         _petrole-=coutPetrole(_port,pos_x,pos_y);
-        map[pos_x][pos_y].type=PLATEFORME;
-        map[pos_x][pos_y].joueur=_numero_joueur;
+        map[pos_x][pos_y]=PLATEFORME;
         _plateformes.push_back(Plateforme());
         _plateformes.back().pos.x=pos_x;
         _plateformes.back().pos.y=pos_y;
-        _nombre_plateformes++;
     }
 }
 void Joueur::taperPort(Case map[][LARGEUR], int degats)
 {
-    map[_port.pos.x][_port.pos.y].type=CASE_DETRUITE;
-    map[_port.pos.x][_port.pos.y].joueur=PERSONNE;
+    map[_port.pos.x][_port.pos.y]=CASE_DETRUITE;
     _port.vie-=degats;
 }
 
 void Joueur::taperPlateforme(Case map[][LARGEUR], int x)
 {
-    _plateformes[x].~Plateforme();
-    map[_plateformes[x].pos.x][_plateformes[x].pos.y].type=CASE_DETRUITE;
-    map[_plateformes[x].pos.x][_plateformes[x].pos.y].joueur=PERSONNE;
-    _nombre_plateformes--;
+    map[_plateformes[x].pos.x][_plateformes[x].pos.y]=CASE_DETRUITE;
 }
 
 void Joueur::taperBateau(Case map[][LARGEUR], int x)
@@ -208,14 +185,10 @@ void Joueur::taperBateau(Case map[][LARGEUR], int x)
     _bateaux[x]->takeDamage(1);
     if (_bateaux[x]->getLife() <= 0) {
       for (int i = 0; i < _bateaux[x]->getSize(); ++i) {
-	if (_bateaux[x]->getDirection() == VERTICAL) {
-	  map[_bateaux[x]->getX() - i][_bateaux[x]->getY()].type=CASE_DETRUITE;
-	  map[_bateaux[x]->getX() - i][_bateaux[x]->getY()].joueur=PERSONNE;
-	}
-	else if (_bateaux[x]->getDirection() == HORIZONTAL) {
-	  map[_bateaux[x]->getX()][_bateaux[x]->getY() - i].type=CASE_DETRUITE;
-	  map[_bateaux[x]->getX()][_bateaux[x]->getY() - i].joueur=PERSONNE;
-	}
+	if (_bateaux[x]->getDirection() == VERTICAL)
+	  map[_bateaux[x]->getX() - i][_bateaux[x]->getY()]=CASE_DETRUITE;
+	else if (_bateaux[x]->getDirection() == HORIZONTAL)
+	  map[_bateaux[x]->getX()][_bateaux[x]->getY() - i]=CASE_DETRUITE;
       }
       delete _bateaux[x];
     }

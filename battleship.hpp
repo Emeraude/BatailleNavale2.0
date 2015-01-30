@@ -14,8 +14,8 @@
 
 #define NOMBRE_JOUEUR   2
 
-enum Cases {PORT, PETROLE, PLATEFORME, BATEAU, CASE_LIBRE, CASE_DETRUITE};
-enum Directions {HORIZONTAL, VERTICAL};
+enum Case {PORT, PETROLE, PLATEFORME, BATEAU, CASE_LIBRE, CASE_DETRUITE};
+enum Direction {HORIZONTAL, VERTICAL};
 
 #define IA              301
 #define HUMAIN          302
@@ -40,13 +40,6 @@ typedef struct Plateforme Plateforme;
 struct Plateforme
 {
     Position pos;
-};
-
-typedef struct Case Case;
-struct Case
-{
-    int type;
-    int joueur;
 };
 
 class Joueur;

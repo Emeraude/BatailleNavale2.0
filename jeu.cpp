@@ -19,7 +19,7 @@ void jeu()
     {
         for(y=0;y<LARGEUR;y++)
         {
-            map[x][y].type=CASE_LIBRE;
+            map[x][y]=CASE_LIBRE;
         }
     }
 
@@ -32,10 +32,10 @@ void jeu()
     {
         x=rand()%HAUTEUR;
         y=rand()%LARGEUR;
-        if(map[x][y].type==CASE_LIBRE)
+        if(map[x][y]==CASE_LIBRE)
         {
             i++;
-            map[x][y].type=PETROLE;
+            map[x][y]=PETROLE;
         }
     }
 
@@ -45,9 +45,9 @@ void jeu()
         {
             for(y=0;y<LARGEUR;y++)
             {
-	      if (map[x][y].type==CASE_LIBRE) std::cout << " ";
-	      else if (map[x][y].type==PETROLE) std::cout << "p";
-	      else if (map[x][y].type==PORT) std::cout << "z";
+	      if (map[x][y]==CASE_LIBRE) std::cout << " ";
+	      else if (map[x][y]==PETROLE) std::cout << "p";
+	      else if (map[x][y]==PORT) std::cout << "z";
 	      std::cout << " ";
             }
 	    std::cout << std::endl;

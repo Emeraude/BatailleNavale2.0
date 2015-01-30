@@ -23,7 +23,7 @@ Position trouverPetroleLePlusProche(Case map[][LARGEUR], int x, int y)
     {
         for(j=0;j<LARGEUR;j++)
         {
-            if(map[i][j].type==PETROLE&&distance(i,j,x,y)<distance(m,n,x,y))
+            if(map[i][j]==PETROLE&&distance(i,j,x,y)<distance(m,n,x,y))
             {
                 if(c==0)
                 {
