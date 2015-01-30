@@ -1,7 +1,10 @@
 #ifndef GAME_HPP_
 # define GAME_HPP_
 
+# include <iostream>
+# include <string>
 # include <vector>
+# include <cstdlib>
 # include "battleship.hpp"
 # include "player.hpp"
 
