@@ -1,15 +1,16 @@
 #ifndef CLASS_JOUEUR
 #define CLASS_JOUEUR
 
-#include "battleship.hpp"
 #include <vector>
+#include "battleship.hpp"
+#include "boat.hpp"
 
 class Joueur
 {
 private:
     Port _port;
     std::vector<Plateforme> _plateformes;
-    std::vector<Bateau> _bateaux;
+    std::vector<Boat *> _bateaux;
     int _argent;
     int _petrole;
     int _nombre_plateformes;
@@ -25,7 +26,7 @@ public:
     int getArgent();
     int getPetrole();
     int getVie();
-    Bateau getBateau(int x);
+    Boat const& getBateau(int x);
     int getNombreBateaux();
 
     void recupererPetrole(Case map[][LARGEUR],int quantite); // récolte du pétrole;

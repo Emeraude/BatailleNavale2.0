@@ -1,4 +1,5 @@
-SRCS	= jeu.cpp \
+SRCS	= boat.cpp \
+	  jeu.cpp \
 	  joueur.cpp \
 	  main.cpp \
 	  fonctions.cpp

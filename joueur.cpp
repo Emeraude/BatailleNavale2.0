@@ -42,9 +42,9 @@ int Joueur::getVie()
     return _port.vie;
 }
 
-Bateau Joueur::getBateau(int x)
+Boat const& Joueur::getBateau(int x)
 {
-  return _bateaux[bateauExiste(_bateaux[x]) ? x : 0];
+  return *_bateaux[x];
 }
 
 int Joueur::getNombreBateaux()
@@ -81,6 +81,7 @@ void Joueur::recupererPetrole(Case map[][LARGEUR],int quantite)
         }
     }
 }
+
 void Joueur::vendrePetrole(int quantite)
 {
     if(quantite>_petrole)
@@ -91,9 +92,10 @@ void Joueur::vendrePetrole(int quantite)
     {
         _petrole-=quantite;
         _argent+=quantite*5000;
-	std::cout << "Vous avez vendu " << quantite << " barils de pétrole pour la somme de " << quantite*5000 << " $." << std::endl << "Il vous reste " << _petrole << " Barils." << std::endl;
+	std::cout << "Vous avez vendu " << quantite << " barils de pétrole pour la somme de " << quantite*5000 << " $." << std::endl << "Il vous reste " << _petrole << " barils." << std::endl;
     }
 }
+
 void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y, int direction)
 {
     int i;
@@ -146,21 +148,13 @@ void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y
 	  std::cout << "Vous n'avez pas assez de petrole pour placer un bateau ici." << std::endl;
             e=true;
         }
-        if(e==false)
+        if(!e)
         {
             if(_argent>=1000*pow(2,taille-1))
             {
-                _argent-=1000*pow(2,taille-1);
-                _petrole-=coutPetrole(_port,pos_x,pos_y);
-                _bateaux.push_back(Bateau());
-                _bateaux.back().bonus_portee=false;
-                _bateaux.back().bonus_puissance=false;
-                _bateaux.back().taille=taille;
-                _bateaux.back().pos.x=pos_x;
-                _bateaux.back().pos.y=pos_y;
-                _bateaux.back().direction=direction;
-                _bateaux.back().vie=taille;
-                _nombre_bateaux++;
+	      _bateaux.push_back(new Boat(taille, pos_x, pos_y, direction));
+	      _argent -= 1000 * pow(2, taille - 1);
+	      _petrole -= coutPetrole(_port, pos_x, pos_y);
                 for(i=0;i<taille;i++)
                 {
                     if(direction==HAUT)
@@ -226,6 +220,7 @@ void Joueur::taperPort(Case map[][LARGEUR], int degats)
     map[_port.pos.x][_port.pos.y].joueur=PERSONNE;
     _port.vie-=degats;
 }
+
 void Joueur::taperPlateforme(Case map[][LARGEUR], int x)
 {
     _plateformes[x].~Plateforme();
@@ -233,36 +228,29 @@ void Joueur::taperPlateforme(Case map[][LARGEUR], int x)
     map[_plateformes[x].pos.x][_plateformes[x].pos.y].joueur=PERSONNE;
     _nombre_plateformes--;
 }
+
 void Joueur::taperBateau(Case map[][LARGEUR], int x)
 {
-    int i;
-    _bateaux[x].vie-=1;
-    if(_bateaux[x].vie<=0)
-    {
-        for(i=0;i<_bateaux[x].taille;i++)
-        {
-            if(_bateaux[x].direction==HAUT)
-            {
-                map[_bateaux[x].pos.x-i][_bateaux[x].pos.y].type=CASE_DETRUITE;
-                map[_bateaux[x].pos.x-i][_bateaux[x].pos.y].joueur=PERSONNE;
-            }
-            else if(_bateaux[x].direction==BAS)
-            {
-                map[_bateaux[x].pos.x+i][_bateaux[x].pos.y].type=CASE_DETRUITE;
-                map[_bateaux[x].pos.x+i][_bateaux[x].pos.y].joueur=PERSONNE;
-            }
-            else if(_bateaux[x].direction==GAUCHE)
-            {
-                map[_bateaux[x].pos.x][_bateaux[x].pos.y-i].type=CASE_DETRUITE;
-                map[_bateaux[x].pos.x][_bateaux[x].pos.y-i].joueur=PERSONNE;
-            }
-            else if(_bateaux[x].direction==DROITE)
-            {
-                map[_bateaux[x].pos.x][_bateaux[x].pos.y+i].type=CASE_DETRUITE;
-                map[_bateaux[x].pos.x][_bateaux[x].pos.y+i].joueur=PERSONNE;
-            }
-        }
-        _bateaux[x].~Bateau();
-        _nombre_bateaux--;
+    _bateaux[x]->takeDamage(1);
+    if (_bateaux[x]->getLife() <= 0) {
+      for (int i = 0; i < _bateaux[x]->getSize(); ++i) {
+	if (_bateaux[x]->getDirection() == HAUT) {
+	  map[_bateaux[x]->getX() - i][_bateaux[x]->getY()].type=CASE_DETRUITE;
+	  map[_bateaux[x]->getX() - i][_bateaux[x]->getY()].joueur=PERSONNE;
+	}
+	else if (_bateaux[x]->getDirection() == BAS) {
+	  map[_bateaux[x]->getX() + i][_bateaux[x]->getY()].type=CASE_DETRUITE;
+	  map[_bateaux[x]->getX() + i][_bateaux[x]->getY()].joueur=PERSONNE;
+	}
+	else if (_bateaux[x]->getDirection() == GAUCHE) {
+	  map[_bateaux[x]->getX()][_bateaux[x]->getY() - i].type=CASE_DETRUITE;
+	  map[_bateaux[x]->getX()][_bateaux[x]->getY() - i].joueur=PERSONNE;
+	}
+	else if (_bateaux[x]->getDirection() == DROITE) {
+	  map[_bateaux[x]->getX()][_bateaux[x]->getY() + i].type=CASE_DETRUITE;
+	  map[_bateaux[x]->getX()][_bateaux[x]->getY() + i].joueur=PERSONNE;
+	}
+      }
+      delete _bateaux[x];
     }
 }
