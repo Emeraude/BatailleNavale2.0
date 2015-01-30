@@ -14,7 +14,7 @@ private:
   int _direction;
 
 public:
-  Boat(int size = 1, int x = 0, int y = 0, int direction = HAUT);
+  Boat(int size = 1, int x = 0, int y = 0, int direction = VERTICAL);
   ~Boat();
 
   void takeDamage(int dmg);

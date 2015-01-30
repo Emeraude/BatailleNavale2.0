@@ -15,7 +15,7 @@
 #define NOMBRE_JOUEUR   2
 
 enum Cases {PORT, PETROLE, PLATEFORME, BATEAU, CASE_LIBRE, CASE_DETRUITE};
-enum Directions {HAUT, BAS, DROITE, GAUCHE};
+enum Directions {HORIZONTAL, VERTICAL};
 
 #define IA              301
 #define HUMAIN          302

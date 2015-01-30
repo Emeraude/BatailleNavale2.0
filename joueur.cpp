@@ -110,7 +110,7 @@ void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y
     {
         for(i=1;i<taille;i++)
         {
-            if(direction==HAUT&&pos_x-i>=0)
+            if(direction==VERTICAL&&pos_x-i>=0)
             {
                 if(map[pos_x-i][pos_y].type!=CASE_LIBRE)
                 {
@@ -118,27 +118,11 @@ void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y
                     e=true;
                 }
             }
-            else if(direction==BAS&&pos_x+i<HAUTEUR)
-            {
-                if(map[pos_x+i][pos_y].type!=CASE_LIBRE)
-                {
-		  std::cout << "La case aux coordonnees " << pos_x+i << "|" << pos_y << " n'est pas libre." << std::endl;
-		  e=true;
-                }
-            }
-            else if(direction==GAUCHE&&pos_y-i>=0)
+            else if(direction==HORIZONTAL&&pos_y-i>=0)
             {
                 if(map[pos_x][pos_y-i].type!=CASE_LIBRE)
                 {
 		  std::cout << "La case aux coordonnees " << pos_x << "|" << pos_y-1 << " n'est pas libre." << std::endl;
-		  e=true;
-                }
-            }
-            else if(direction==DROITE&&pos_y+i<LARGEUR)
-            {
-                if(map[pos_x][pos_y+i].type!=CASE_LIBRE)
-                {
-		  std::cout << "La case aux coordonnees " << pos_x << "|" << pos_y+i << " n'est pas libre." << std::endl;
 		  e=true;
                 }
             }
@@ -157,25 +141,15 @@ void Joueur::acheterNavire(Case map[][LARGEUR], int taille, int pos_x, int pos_y
 	      _petrole -= coutPetrole(_port, pos_x, pos_y);
                 for(i=0;i<taille;i++)
                 {
-                    if(direction==HAUT)
+		    if(direction==VERTICAL)
                     {
                         map[pos_x-i][pos_y].type=BATEAU;
                         map[pos_x-i][pos_y].joueur=_numero_joueur;
                     }
-                    else if(direction==BAS)
-                    {
-                        map[pos_x+i][pos_y].type=BATEAU;
-                        map[pos_x+i][pos_y].joueur=_numero_joueur;
-                    }
-                    else if(direction==GAUCHE)
+                    else if(direction==HORIZONTAL)
                     {
                         map[pos_x][pos_y-i].type=BATEAU;
                         map[pos_x][pos_y-i].joueur=_numero_joueur;
-                    }
-                    else if(direction==DROITE)
-                    {
-                        map[pos_x][pos_y+i].type=BATEAU;
-                        map[pos_x][pos_y+i].joueur=_numero_joueur;
                     }
                 }
             }
@@ -234,21 +208,13 @@ void Joueur::taperBateau(Case map[][LARGEUR], int x)
     _bateaux[x]->takeDamage(1);
     if (_bateaux[x]->getLife() <= 0) {
       for (int i = 0; i < _bateaux[x]->getSize(); ++i) {
-	if (_bateaux[x]->getDirection() == HAUT) {
+	if (_bateaux[x]->getDirection() == VERTICAL) {
 	  map[_bateaux[x]->getX() - i][_bateaux[x]->getY()].type=CASE_DETRUITE;
 	  map[_bateaux[x]->getX() - i][_bateaux[x]->getY()].joueur=PERSONNE;
 	}
-	else if (_bateaux[x]->getDirection() == BAS) {
-	  map[_bateaux[x]->getX() + i][_bateaux[x]->getY()].type=CASE_DETRUITE;
-	  map[_bateaux[x]->getX() + i][_bateaux[x]->getY()].joueur=PERSONNE;
-	}
-	else if (_bateaux[x]->getDirection() == GAUCHE) {
+	else if (_bateaux[x]->getDirection() == HORIZONTAL) {
 	  map[_bateaux[x]->getX()][_bateaux[x]->getY() - i].type=CASE_DETRUITE;
 	  map[_bateaux[x]->getX()][_bateaux[x]->getY() - i].joueur=PERSONNE;
-	}
-	else if (_bateaux[x]->getDirection() == DROITE) {
-	  map[_bateaux[x]->getX()][_bateaux[x]->getY() + i].type=CASE_DETRUITE;
-	  map[_bateaux[x]->getX()][_bateaux[x]->getY() + i].joueur=PERSONNE;
 	}
       }
       delete _bateaux[x];
