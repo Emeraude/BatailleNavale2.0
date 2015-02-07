@@ -1,6 +1,10 @@
 #ifndef BATTLESHIP_HPP_
 # define BATTLESHIP_HPP_
 
+# define COST_GET_OIL 500
+# define COST_SELL_OIL 5000
+# define COST_PLATFORM 5000
+
 # include "harbor.hpp"
 
 enum Case {PORT, OIL, PLATFORM, BOAT, EMPTY, DESTROYED, BORDER};

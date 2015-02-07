@@ -44,12 +44,12 @@ void Player::recupererPetrole(Case **map,int quantite)
     else
     {
         position=trouverPetroleLePlusProche(map,_harbor.getX(),_harbor.getY());
-        prix+=500*distance(position.x,position.y,_harbor.getX(),_harbor.getY());
+        prix += COST_GET_OIL * distance(position.x,position.y,_harbor.getX(),_harbor.getY());
 
         for(i=0;i<quantite;i++)
         {
 	  position = trouverPetroleLePlusProche(map, _platforms[i]->getX(), _platforms[i]->getY());
-	  prix += distance(position.x, position.y, _platforms[i]->getX(), _platforms[i]->getY());
+	  prix += COST_GET_OIL * distance(position.x, position.y, _platforms[i]->getX(), _platforms[i]->getY());
         }
         if(prix>=_argent)
         {
@@ -63,18 +63,14 @@ void Player::recupererPetrole(Case **map,int quantite)
     }
 }
 
-void Player::vendrePetrole(int quantite)
-{
-    if(quantite>_petrole)
-    {
-      std::cout << "Vous n'avez que " << _petrole << " barils de pétrole et ne pouvez en vendre " << quantite << "." << std::endl;
-    }
-    else
-    {
-        _petrole-=quantite;
-        _argent+=quantite*5000;
-	std::cout << "Vous avez vendu " << quantite << " barils de pétrole pour la somme de " << quantite*5000 << " $." << std::endl << "Il vous reste " << _petrole << " barils." << std::endl;
-    }
+void Player::vendrePetrole(int nb) {
+  if (nb > _petrole)
+    std::cout << "Vous n'avez que " << _petrole << " barils de pétrole et ne pouvez en vendre " << nb << "." << std::endl;
+  else {
+    _petrole -= nb;
+    _argent += nb * COST_SELL_OIL;
+    std::cout << "Vous avez vendu " << nb << " barils de pétrole pour la somme de " << nb*COST_SELL_OIL << " $." << std::endl << "Il vous reste " << _petrole << " barils." << std::endl;
+  }
 }
 
 void Player::acheterNavire(Case **map, int taille, int pos_x, int pos_y, Direction direction)
@@ -133,20 +129,20 @@ void Player::acheterNavire(Case **map, int taille, int pos_x, int pos_y, Directi
         }
     }
 }
-void Player::acheterPlateforme(Case **map, int pos_x, int pos_y)
-{
-    if (map[pos_x][pos_y] != EMPTY)
-      std::cout << "La case aux coordonnées " << pos_x << "|" << pos_y << " n'est pas libre." << std::endl;
-    else if (_petrole < coutPetrole(_harbor, pos_x, pos_y))
-      std::cout << "Vous n'avez pas assez de petrole pour placer un bateau ici." << std::endl;
-    else if (_argent < 5000)
-      std::cout << "Une plateforme petroliere coute 5000$ et vous ne disposez que de " << _argent << "$." << std::endl;
-    else {
-        _argent -= 5000;
-        _petrole -= coutPetrole(_harbor, pos_x, pos_y);
-        map[pos_x][pos_y] = PLATFORM;
-        _platforms.push_back(new Platform(pos_x, pos_y));
-    }
+
+void Player::acheterPlateforme(Case **map, int pos_x, int pos_y) {
+  if (map[pos_x][pos_y] != EMPTY)
+    std::cout << "La case aux coordonnées " << pos_x << "|" << pos_y << " n'est pas libre." << std::endl;
+  else if (_petrole < coutPetrole(_harbor, pos_x, pos_y))
+    std::cout << "Vous n'avez pas assez de petrole pour placer une plateform ici." << std::endl;
+  else if (_argent < COST_PLATFORM)
+    std::cout << "Une plateforme petroliere coute " << COST_PLATFORM << "$ et vous ne disposez que de " << _argent << "$." << std::endl;
+  else {
+    _argent -= COST_PLATFORM;
+    _petrole -= coutPetrole(_harbor, pos_x, pos_y);
+    map[pos_x][pos_y] = PLATFORM;
+    _platforms.push_back(new Platform(pos_x, pos_y));
+  }
 }
 
 void Player::taperPort(Case **map, int dmg) {
