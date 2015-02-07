@@ -5,15 +5,12 @@
 #include "battleship.hpp"
 #include "player.hpp"
 
-Player::Player(Case **map,int pos_port_x, int pos_port_y, Type type, int vie, int argent, int petrole)
-{
-    _port.pos.x = pos_port_x;
-    _port.pos.y = pos_port_y;
-    map[_port.pos.x][_port.pos.y] = PORT;
-    _type = type;
-    _port.vie = vie;
-    _argent = argent;
-    _petrole = petrole;
+Player::Player(Case **map,int pos_port_x, int pos_port_y, Type type, int vie, int argent, int petrole) :
+  _harbor(pos_port_x, pos_port_y, vie) {
+  map[_harbor.getX()][_harbor.getY()] = PORT;
+  _type = type;
+  _argent = argent;
+  _petrole = petrole;
 }
 
 Player::~Player() {
@@ -33,11 +30,6 @@ int Player::getPetrole()
     return _petrole;
 }
 
-int Player::getVie()
-{
-    return _port.vie;
-}
-
 Boat const& Player::getBateau(int x)
 {
   return *_bateaux[x];
@@ -51,8 +43,8 @@ void Player::recupererPetrole(Case **map,int quantite)
     if((unsigned)quantite > _platforms.size()+1) std::cout << "Vous n'avez pas suffisamment de plateformes petrolieres." << std::endl;
     else
     {
-        position=trouverPetroleLePlusProche(map,_port.pos.x,_port.pos.y);
-        prix+=500*distance(position.x,position.y,_port.pos.x,_port.pos.y);
+        position=trouverPetroleLePlusProche(map,_harbor.getX(),_harbor.getY());
+        prix+=500*distance(position.x,position.y,_harbor.getX(),_harbor.getY());
 
         for(i=0;i<quantite;i++)
         {
@@ -116,7 +108,7 @@ void Player::acheterNavire(Case **map, int taille, int pos_x, int pos_y, Directi
                 }
             }
         }
-        if(_petrole<coutPetrole(_port,pos_x,pos_y))
+        if(_petrole<coutPetrole(_harbor,pos_x,pos_y))
         {
 	  std::cout << "Vous n'avez pas assez de petrole pour placer un bateau ici." << std::endl;
 	  e=true;
@@ -127,7 +119,7 @@ void Player::acheterNavire(Case **map, int taille, int pos_x, int pos_y, Directi
             {
 	      _bateaux.push_back(new Boat(taille, pos_x, pos_y, direction));
 	      _argent -= 1000 * pow(2, taille - 1);
-	      _petrole -= coutPetrole(_port, pos_x, pos_y);
+	      _petrole -= coutPetrole(_harbor, pos_x, pos_y);
                 for(i=0;i<taille;i++)
                 {
 		    if(direction==VERTICAL)
@@ -145,22 +137,21 @@ void Player::acheterPlateforme(Case **map, int pos_x, int pos_y)
 {
     if (map[pos_x][pos_y] != EMPTY)
       std::cout << "La case aux coordonnées " << pos_x << "|" << pos_y << " n'est pas libre." << std::endl;
-    else if (_petrole < coutPetrole(_port, pos_x, pos_y))
+    else if (_petrole < coutPetrole(_harbor, pos_x, pos_y))
       std::cout << "Vous n'avez pas assez de petrole pour placer un bateau ici." << std::endl;
     else if (_argent < 5000)
       std::cout << "Une plateforme petroliere coute 5000$ et vous ne disposez que de " << _argent << "$." << std::endl;
     else {
         _argent -= 5000;
-        _petrole -= coutPetrole(_port, pos_x, pos_y);
+        _petrole -= coutPetrole(_harbor, pos_x, pos_y);
         map[pos_x][pos_y] = PLATFORM;
         _platforms.push_back(new Platform(pos_x, pos_y));
     }
 }
 
-void Player::taperPort(Case **map, int degats)
-{
-    map[_port.pos.x][_port.pos.y]=DESTROYED;
-    _port.vie-=degats;
+void Player::taperPort(Case **map, int dmg) {
+  if (_harbor.getDamage(dmg) <= 0)
+    map[_harbor.getX()][_harbor.getY()] = DESTROYED;
 }
 
 void Player::taperPlateforme(Case **map, int x) {

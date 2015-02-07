@@ -4,14 +4,12 @@
 
 #include "battleship.hpp"
 
-int distance(int x_a, int y_a, int x_b, int y_b)
-{
+int distance(int x_a, int y_a, int x_b, int y_b) {
     return fabs(y_a-y_b)+fabs(x_a-x_b)-1;
 }
 
-int coutPetrole(Port port, int x, int y)
-{
-    return ceil(distance(port.pos.x,port.pos.y,x,y)/3);
+int coutPetrole(Harbor harbor, int x, int y) {
+  return ceil(distance(harbor.getX(), harbor.getY(), x, y) / 3);
 }
 
 Position trouverPetroleLePlusProche(Case **map, int x, int y)

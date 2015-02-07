@@ -9,7 +9,7 @@
 class Player
 {
 private:
-    Port _port;
+    Harbor _harbor;
     std::vector<Platform *> _platforms;
     std::vector<Boat *> _bateaux;
     int _argent;
@@ -22,7 +22,6 @@ public:
 
   int getArgent();
   int getPetrole();
-  int getVie();
   Boat const& getBateau(int x);
   int getNombreBateaux();
 

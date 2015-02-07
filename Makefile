@@ -1,6 +1,7 @@
 SRCS	= boat.cpp \
 	  fonctions.cpp \
 	  game.cpp \
+	  harbor.cpp \
 	  main.cpp \
 	  player.cpp \
 	  platform.cpp
@@ -13,10 +14,12 @@ NAME	= battleship
 
 RM	= rm -f
 
+CC	= g++
+
 all:	$(NAME)
 
 $(NAME):	$(OBJS)
-	g++ -o $(NAME) $(OBJS)
+	$(CC) -o $(NAME) $(OBJS)
 
 clean:
 	$(RM) $(OBJS)
